@@ -19,4 +19,23 @@ margin_right = -149.784
 margin_bottom = -173.0
 text = "START"
 
+[node name="Label" type="Label" parent="."]
+margin_left = 335.0
+margin_top = 7.0
+margin_right = 600.0
+margin_bottom = 32.0
+text = "Pomodoro Technique Timer"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Work_timer" type="Timer" parent="."]
+
+[node name="Time_remaining" type="Label" parent="."]
+margin_left = 435.0
+margin_top = 214.0
+margin_right = 594.0
+margin_bottom = 293.0
+
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="timeout" from="Work_timer" to="." method="_on_Work_timer_timeout"]
