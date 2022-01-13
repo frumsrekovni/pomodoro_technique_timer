@@ -1,13 +1,23 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Pomodoro_Technique_Timer_Interface.gd" type="Script" id=1]
 [ext_resource path="res://FRAMD.TTF" type="DynamicFontData" id=2]
+[ext_resource path="res://arial.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://ariblk.ttf" type="DynamicFontData" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 40
 outline_size = 1
 outline_color = Color( 0.898039, 0.105882, 0.105882, 1 )
 font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 28
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 150
+font_data = ExtResource( 4 )
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -20,35 +30,33 @@ __meta__ = {
 [node name="Button" type="Button" parent="."]
 anchor_right = 0.741
 anchor_bottom = 0.535
-margin_left = 308.0
-margin_top = 241.0
-margin_right = -162.784
-margin_bottom = 32.0
+margin_left = 717.0
+margin_top = 433.0
+margin_right = 246.216
+margin_bottom = 224.0
 text = "START"
 
-[node name="Label" type="Label" parent="."]
-margin_left = 92.0
-margin_top = 262.0
-margin_right = 435.0
-margin_bottom = 324.0
-text = "Pomodoro Technique Timer"
+[node name="Break_timer" type="Timer" parent="."]
+
+[node name="Work_timer" type="Timer" parent="."]
+
+[node name="work_time_input_buffer" type="LineEdit" parent="."]
+margin_left = 902.0
+margin_top = 159.0
+margin_right = 960.0
+margin_bottom = 185.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Work_timer" type="Timer" parent="."]
-
-[node name="Time_remaining" type="Label" parent="."]
-margin_left = 435.0
-margin_top = 214.0
-margin_right = 594.0
-margin_bottom = 293.0
-
-[node name="LineEdit" type="LineEdit" parent="."]
-margin_left = 383.0
-margin_top = 397.0
-margin_right = 574.0
-margin_bottom = 533.0
+[node name="break_time_input_buffer" type="LineEdit" parent="."]
+margin_left = 902.0
+margin_top = 204.0
+margin_right = 960.0
+margin_bottom = 228.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Title" type="RichTextLabel" parent="."]
 margin_left = 185.0
@@ -59,6 +67,73 @@ rect_scale = Vector2( 1.58035, 2.08609 )
 custom_fonts/normal_font = SubResource( 1 )
 text = "Pomodoro Technique Timer"
 
+[node name="work_time_label" type="RichTextLabel" parent="."]
+margin_left = 763.0
+margin_top = 156.0
+margin_right = 914.0
+margin_bottom = 208.0
+custom_colors/default_color = Color( 1, 0, 0, 1 )
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[color=red]Work time[/color]"
+text = "Work time"
+override_selected_font_color = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="work_timer_display" type="RichTextLabel" parent="."]
+margin_left = 218.0
+margin_top = 511.0
+margin_right = 409.0
+margin_bottom = 585.0
+custom_fonts/normal_font = SubResource( 2 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="break_time_label" type="RichTextLabel" parent="."]
+margin_left = 764.0
+margin_top = 200.0
+margin_right = 915.0
+margin_bottom = 252.0
+custom_colors/default_color = Color( 1, 0, 0, 1 )
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[color=red]Break time[/color]"
+text = "Break time"
+override_selected_font_color = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="break_timer_display" type="RichTextLabel" parent="."]
+margin_left = 56.0
+margin_top = 469.0
+margin_right = 246.0
+margin_bottom = 573.0
+custom_fonts/normal_font = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="main_timer_displayer" type="RichTextLabel" parent="."]
+margin_left = 267.0
+margin_top = 226.0
+margin_right = 744.0
+margin_bottom = 455.0
+custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
+custom_fonts/normal_font = SubResource( 3 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="timeout" from="Break_timer" to="." method="_on_Break_timer_timeout"]
 [connection signal="timeout" from="Work_timer" to="." method="_on_Work_timer_timeout"]
-[connection signal="text_entered" from="LineEdit" to="." method="_on_LineEdit_text_entered"]
+[connection signal="text_changed" from="work_time_input_buffer" to="." method="_on_work_time_input_buffer_text_changed"]
+[connection signal="text_entered" from="work_time_input_buffer" to="." method="_on_work_time_input_buffer_text_entered"]
+[connection signal="text_changed" from="break_time_input_buffer" to="." method="_on_break_time_input_buffer_text_changed"]
+[connection signal="text_entered" from="break_time_input_buffer" to="." method="_on_break_time_input_buffer_text_entered"]
