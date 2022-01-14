@@ -22,7 +22,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if(time_to_work):
 		$current_status.text = "WORK"
-		main_timer_in_minutes = "%03d"%(work_time.time_left / 60)
+		main_timer_in_minutes = ("%03d"%(work_time.time_left / 60))
+		$main_timer_displayer_seconds.text = str("%02d"%(int(work_time.time_left)%60))
 		$main_timer_displayer.text = str(main_timer_in_minutes)
 		if(work_time.is_stopped()):
 			time_to_work = false
@@ -33,13 +34,15 @@ func _process(delta: float) -> void:
 			break_time.start()
 	elif(time_for_break):
 		$current_status.text = "REST"
-		main_timer_in_minutes = "%03d"%(break_time.time_left / 60)
+		main_timer_in_minutes = ("%03d"%(break_time.time_left / 60))
+		$main_timer_displayer_seconds.text = str("%02d"%(int(break_time.time_left)%60))
 		$main_timer_displayer.text = str(main_timer_in_minutes)
 		if(break_time.is_stopped()):
 			time_to_work = true
 			time_for_break = false
 			work_time.set_wait_time(work_time_minutes_in_seconds)
 			#work_time.set_wait_time(5)
+			$beep.play()
 			work_time.start()
 			
 		
