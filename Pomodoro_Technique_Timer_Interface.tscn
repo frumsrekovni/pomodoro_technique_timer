@@ -44,6 +44,20 @@ margin_top = 245.0
 margin_right = 200.216
 margin_bottom = -6.00003
 text = "START"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Reset" type="Button" parent="."]
+anchor_right = 0.066
+anchor_bottom = 0.133
+margin_top = 8.0
+margin_right = -35.584
+margin_bottom = -51.8
+text = "RESET"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Break_timer" type="Timer" parent="."]
 
@@ -118,6 +132,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="main_timer_displayer_seconds" type="RichTextLabel" parent="."]
+margin_left = 466.0
+margin_top = 330.0
+margin_right = 673.0
+margin_bottom = 555.0
+custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
+custom_fonts/normal_font = SubResource( 3 )
+text = "00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="current_status" type="RichTextLabel" parent="."]
 margin_left = 128.0
 margin_top = 112.0
@@ -131,18 +157,6 @@ __meta__ = {
 
 [node name="beep" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
-
-[node name="main_timer_displayer_seconds" type="RichTextLabel" parent="."]
-margin_left = 466.0
-margin_top = 330.0
-margin_right = 673.0
-margin_bottom = 555.0
-custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
-custom_fonts/normal_font = SubResource( 3 )
-text = "00"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="colon" type="RichTextLabel" parent="."]
 margin_left = 419.0
@@ -178,6 +192,7 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="Reset" to="." method="_on_Reset_pressed"]
 [connection signal="timeout" from="Break_timer" to="." method="_on_Break_timer_timeout"]
 [connection signal="timeout" from="Work_timer" to="." method="_on_Work_timer_timeout"]
 [connection signal="text_changed" from="work_time_input_buffer" to="." method="_on_work_time_input_buffer_text_changed"]

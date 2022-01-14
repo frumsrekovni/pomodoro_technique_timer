@@ -19,8 +19,6 @@ onready var save_file = File.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	work_time.set_wait_time(0)
-	break_time.set_wait_time(0)
 	save_file.open("total_time_studied",File.READ)
 	total_work_time_overall = int(save_file.get_as_text())
 	save_file.close()
@@ -29,7 +27,6 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	save_file.open("total_time_studied",File.READ)
-	#print((int(save_file.get_as_text())/1000)/60)
 	$total_time_overall_value.text = str((int(save_file.get_as_text()) / 1000)/60)
 	save_file.close()
 	if(time_to_work):
@@ -48,7 +45,6 @@ func _process(delta: float) -> void:
 			time_to_work = false
 			time_for_break = true
 			break_time.set_wait_time(rest_time_minutes_in_seconds)
-			#break_time.set_wait_time(5)
 			total_work_time_overall += total_work_time_this_session
 			save_file.open("total_time_studied",File.WRITE)
 			save_file.store_line(to_json(total_work_time_overall))
@@ -64,7 +60,6 @@ func _process(delta: float) -> void:
 			time_to_work = true
 			time_for_break = false
 			work_time.set_wait_time(work_time_minutes_in_seconds)
-			#work_time.set_wait_time(5)
 			$beep.play()
 			work_time.start()
 			time_start = OS.get_ticks_msec()
@@ -112,3 +107,22 @@ func _on_work_time_input_buffer_text_changed(new_text: String) -> void:
 
 func _on_break_time_input_buffer_text_changed(new_text: String) -> void:
 	$break_time_label.bbcode_text = ("[color=red]"+$break_time_label.text+"[/color]")
+
+
+func _on_Reset_pressed() -> void:
+	total_work_time_overall = 0
+	total_work_time_this_session = 0
+	time_to_work = false
+	time_for_break = false
+	work_time_minutes_in_seconds= 0
+	rest_time_minutes_in_seconds= 0
+	
+	main_timer_in_minutes = 0
+	$main_timer_displayer_seconds.text = str("%02d"%(int(main_timer_in_minutes)%60))
+	$main_timer_displayer.text = str("%03d"%main_timer_in_minutes)
+	$break_time_input_buffer.clear()
+	$work_time_input_buffer.clear()
+	
+	save_file.open("total_time_studied",File.WRITE)
+	save_file.store_line(to_json(total_work_time_overall))
+	save_file.close()
