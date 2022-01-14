@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Pomodoro_Technique_Timer_Interface.gd" type="Script" id=1]
 [ext_resource path="res://FRAMD.TTF" type="DynamicFontData" id=2]
 [ext_resource path="res://arial.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://ariblk.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://beep test beep.wav" type="AudioStream" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 40
@@ -19,6 +20,10 @@ font_data = ExtResource( 3 )
 size = 150
 font_data = ExtResource( 4 )
 
+[sub_resource type="DynamicFont" id=4]
+size = 150
+font_data = ExtResource( 4 )
+
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -30,10 +35,10 @@ __meta__ = {
 [node name="Button" type="Button" parent="."]
 anchor_right = 0.741
 anchor_bottom = 0.535
-margin_left = 717.0
-margin_top = 433.0
-margin_right = 246.216
-margin_bottom = 224.0
+margin_left = 766.0
+margin_top = 245.0
+margin_right = 200.216
+margin_bottom = -6.00003
 text = "START"
 
 [node name="Break_timer" type="Timer" parent="."]
@@ -82,53 +87,46 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="work_timer_display" type="RichTextLabel" parent="."]
-margin_left = 218.0
-margin_top = 511.0
-margin_right = 409.0
-margin_bottom = 585.0
-custom_fonts/normal_font = SubResource( 2 )
-text = "0"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="break_time_label" type="RichTextLabel" parent="."]
-margin_left = 764.0
-margin_top = 200.0
-margin_right = 915.0
-margin_bottom = 252.0
+margin_left = 770.0
+margin_top = 194.0
+margin_right = 921.0
+margin_bottom = 246.0
 custom_colors/default_color = Color( 1, 0, 0, 1 )
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
-bbcode_text = "[color=red]Break time[/color]"
-text = "Break time"
+bbcode_text = "[color=red]Rest time[/color]"
+text = "Rest time"
 override_selected_font_color = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="break_timer_display" type="RichTextLabel" parent="."]
-margin_left = 56.0
-margin_top = 469.0
-margin_right = 246.0
-margin_bottom = 573.0
-custom_fonts/normal_font = SubResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="main_timer_displayer" type="RichTextLabel" parent="."]
-margin_left = 267.0
-margin_top = 226.0
-margin_right = 744.0
-margin_bottom = 455.0
+margin_left = 363.0
+margin_top = 347.0
+margin_right = 730.0
+margin_bottom = 565.0
 custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
 custom_fonts/normal_font = SubResource( 3 )
 text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="current_status" type="RichTextLabel" parent="."]
+margin_left = 141.0
+margin_top = 113.0
+margin_right = 734.0
+margin_bottom = 331.0
+custom_fonts/normal_font = SubResource( 4 )
+text = "WORK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="beep" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="timeout" from="Break_timer" to="." method="_on_Break_timer_timeout"]
