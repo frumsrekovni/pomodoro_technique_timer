@@ -68,6 +68,10 @@ func _process(delta: float) -> void:
 	
 
 func _on_Button_pressed() -> void:
+	work_time_minutes_in_seconds = int($work_time_input_buffer.text)*60
+	work_time.set_wait_time(work_time_minutes_in_seconds)
+	rest_time_minutes_in_seconds = int($break_time_input_buffer.text)*60
+	break_time.set_wait_time(rest_time_minutes_in_seconds)
 	work_time.start()
 	time_start = OS.get_ticks_msec()
 	time_to_work = true
@@ -82,32 +86,24 @@ func _on_LineEdit_text_entered(new_text: String) -> void:
 	work_time.set_wait_time(int(new_text))
 	
 
-
-func _on_break_time_input_buffer_text_entered(new_text: String) -> void:
-	rest_time_minutes_in_seconds = int(new_text)*60
-	break_time.set_wait_time(rest_time_minutes_in_seconds)
-	#break_time.set_wait_time(5)
-	$break_time_label.bbcode_text = ("[color=green]"+$break_time_label.text+"[/color]")
-
-
-func _on_work_time_input_buffer_text_entered(new_text: String) -> void:
-	work_time_minutes_in_seconds = int(new_text)*60
-	work_time.set_wait_time(work_time_minutes_in_seconds)
-	#work_time.set_wait_time(5)
-	$work_time_label.bbcode_text = ("[color=green]"+$work_time_label.text+"[/color]")
-
-
 func _on_Break_timer_timeout() -> void:
 	break_time.stop()
 
 
 func _on_work_time_input_buffer_text_changed(new_text: String) -> void:
-	$work_time_label.bbcode_text = ("[color=red]"+$work_time_label.text+"[/color]")
+	if(_accepted_value_check(new_text)):
+		$work_time_label.bbcode_text = ("[color=green]"+$work_time_label.text+"[/color]")
+	else:
+		$work_time_label.bbcode_text = ("[color=red]"+$work_time_label.text+"[/color]")
+	
 
 
 func _on_break_time_input_buffer_text_changed(new_text: String) -> void:
-	$break_time_label.bbcode_text = ("[color=red]"+$break_time_label.text+"[/color]")
-
+	if(_accepted_value_check(new_text)):
+		$break_time_label.bbcode_text = ("[color=green]"+$break_time_label.text+"[/color]")
+	else:
+		$break_time_label.bbcode_text = ("[color=red]"+$break_time_label.text+"[/color]")
+	
 
 func _on_Reset_pressed() -> void:
 	total_work_time_overall = 0
@@ -126,3 +122,11 @@ func _on_Reset_pressed() -> void:
 	save_file.open("total_time_studied",File.WRITE)
 	save_file.store_line(to_json(total_work_time_overall))
 	save_file.close()
+
+func _accepted_value_check(value: String):
+	var x = int(value)
+	if((x < 1000) && (x >= 0) && (value.is_valid_integer())):
+		return true
+	else:
+		return false
+	
