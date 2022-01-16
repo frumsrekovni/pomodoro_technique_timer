@@ -81,6 +81,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="subject_input" type="LineEdit" parent="."]
+margin_left = 206.0
+margin_top = 540.0
+margin_right = 410.0
+margin_bottom = 564.0
+text = "no subject"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="saved_subjects_options" type="OptionButton" parent="."]
+margin_left = 380.0
+margin_top = 540.0
+margin_right = 409.0
+margin_bottom = 565.0
+focus_mode = 0
+enabled_focus_mode = 0
+flat = true
+clip_text = true
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Title" type="RichTextLabel" parent="."]
 margin_left = 128.0
 margin_top = 8.0
@@ -124,10 +148,11 @@ __meta__ = {
 margin_left = 128.0
 margin_top = 326.0
 margin_right = 447.0
-margin_bottom = 551.0
+margin_bottom = 507.0
 custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
 custom_fonts/normal_font = SubResource( 3 )
 text = "000"
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -135,11 +160,12 @@ __meta__ = {
 [node name="main_timer_displayer_seconds" type="RichTextLabel" parent="."]
 margin_left = 466.0
 margin_top = 330.0
-margin_right = 673.0
-margin_bottom = 555.0
+margin_right = 672.0
+margin_bottom = 507.0
 custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
 custom_fonts/normal_font = SubResource( 3 )
 text = "00"
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -159,34 +185,47 @@ __meta__ = {
 stream = ExtResource( 5 )
 
 [node name="colon" type="RichTextLabel" parent="."]
-margin_left = 419.0
+margin_left = 424.0
 margin_top = 315.0
-margin_right = 491.0
-margin_bottom = 540.0
+margin_right = 496.0
+margin_bottom = 487.0
 custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
 custom_fonts/normal_font = SubResource( 3 )
 text = ":"
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="total_time_overall_label" type="RichTextLabel" parent="."]
 margin_left = 128.0
-margin_top = 571.0
-margin_right = 410.0
-margin_bottom = 627.0
+margin_top = 565.0
+margin_right = 288.0
+margin_bottom = 592.0
 custom_fonts/normal_font = SubResource( 5 )
-text = "Time worked overall in minutes:"
+text = "Total time(min):"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="total_time_overall_value" type="RichTextLabel" parent="."]
-margin_left = 404.0
-margin_top = 571.0
-margin_right = 610.0
-margin_bottom = 627.0
+margin_left = 262.0
+margin_top = 567.0
+margin_right = 359.0
+margin_bottom = 594.0
 custom_fonts/normal_font = SubResource( 5 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="total_time_overall_label2" type="RichTextLabel" parent="."]
+margin_left = 128.0
+margin_top = 540.0
+margin_right = 206.0
+margin_bottom = 567.0
+custom_fonts/normal_font = SubResource( 5 )
+text = "Subject:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -197,3 +236,5 @@ __meta__ = {
 [connection signal="timeout" from="Work_timer" to="." method="_on_Work_timer_timeout"]
 [connection signal="text_changed" from="work_time_input_buffer" to="." method="_on_work_time_input_buffer_text_changed"]
 [connection signal="text_changed" from="break_time_input_buffer" to="." method="_on_break_time_input_buffer_text_changed"]
+[connection signal="text_entered" from="subject_input" to="." method="_on_subject_input_text_entered"]
+[connection signal="item_selected" from="saved_subjects_options" to="." method="_on_saved_subjects_options_item_selected"]

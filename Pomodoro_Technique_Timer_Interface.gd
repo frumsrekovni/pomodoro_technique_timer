@@ -1,9 +1,6 @@
 extends Control
 
 
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
 onready var work_time = get_node("Work_timer")
 onready var break_time = get_node("Break_timer")
 onready var main_timer_in_minutes = 0
@@ -16,17 +13,23 @@ onready var total_work_time_overall= 0
 onready var time_start= 0
 onready var time_now= 0
 onready var save_file = File.new()
+onready var save_file_name = "subjects/no subject"
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	save_file.open("total_time_studied",File.READ)
-	total_work_time_overall = int(save_file.get_as_text())
-	save_file.close()
+	var dir = Directory.new()
+	dir.open("subjects")
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	while file_name != "":
+		$saved_subjects_options.add_item(file_name)
+		file_name = dir.get_next()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	save_file.open("total_time_studied",File.READ)
+	save_file.open(save_file_name,File.READ)
 	$total_time_overall_value.text = str((int(save_file.get_as_text()) / 1000)/60)
 	save_file.close()
 	if(time_to_work):
@@ -37,7 +40,7 @@ func _process(delta: float) -> void:
 		
 		time_now=OS.get_ticks_msec()
 		total_work_time_this_session=(time_now - time_start)
-		save_file.open("total_time_studied",File.WRITE)
+		save_file.open(save_file_name,File.WRITE)
 		save_file.store_line(to_json(total_work_time_overall+total_work_time_this_session))
 		save_file.close()
 		
@@ -46,7 +49,7 @@ func _process(delta: float) -> void:
 			time_for_break = true
 			break_time.set_wait_time(rest_time_minutes_in_seconds)
 			total_work_time_overall += total_work_time_this_session
-			save_file.open("total_time_studied",File.WRITE)
+			save_file.open(save_file_name,File.WRITE)
 			save_file.store_line(to_json(total_work_time_overall))
 			save_file.close()
 			$beep.play()
@@ -118,10 +121,7 @@ func _on_Reset_pressed() -> void:
 	$main_timer_displayer.text = str("%03d"%main_timer_in_minutes)
 	$break_time_input_buffer.clear()
 	$work_time_input_buffer.clear()
-	
-	save_file.open("total_time_studied",File.WRITE)
-	save_file.store_line(to_json(total_work_time_overall))
-	save_file.close()
+	$subject_input.text = "no subject"
 
 func _accepted_value_check(value: String):
 	var x = int(value)
@@ -130,3 +130,19 @@ func _accepted_value_check(value: String):
 	else:
 		return false
 	
+
+func _open_or_create_new_file(file_name: String):
+	save_file.open(file_name,File.READ)
+	total_work_time_overall = int(save_file.get_as_text())
+	save_file.close()
+
+func _on_subject_input_text_entered(new_text_input: String) -> void:
+	_open_or_create_new_file("subjects/"+new_text_input.to_lower())
+
+# When selecting an option in the drop down menu the subject's file will be opened 
+# in order to read its total time and add to it
+func _on_saved_subjects_options_item_selected(index: int) -> void:
+	$subject_input.text = $saved_subjects_options.get_item_text(index)
+	_open_or_create_new_file("subjects/"+$saved_subjects_options.get_item_text(index))
+
+
