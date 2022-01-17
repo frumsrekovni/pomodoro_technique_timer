@@ -15,7 +15,6 @@ onready var time_now= 0
 onready var save_file = File.new()
 onready var save_file_name = "subjects/no subject"
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var dir = Directory.new()
@@ -32,6 +31,7 @@ func _process(delta: float) -> void:
 	save_file.open(save_file_name,File.READ)
 	$total_time_overall_value.text = str((int(save_file.get_as_text()) / 1000)/60)
 	save_file.close()
+	
 	if(time_to_work):
 		$current_status.text = "WORK"
 		main_timer_in_minutes = ("%03d"%(work_time.time_left / 60))
@@ -52,6 +52,8 @@ func _process(delta: float) -> void:
 			save_file.open(save_file_name,File.WRITE)
 			save_file.store_line(to_json(total_work_time_overall))
 			save_file.close()
+			
+			OS.request_attention()
 			$beep.play()
 			break_time.start()
 	elif(time_for_break):
@@ -63,6 +65,7 @@ func _process(delta: float) -> void:
 			time_to_work = true
 			time_for_break = false
 			work_time.set_wait_time(work_time_minutes_in_seconds)
+			OS.request_attention()
 			$beep.play()
 			work_time.start()
 			time_start = OS.get_ticks_msec()
@@ -146,3 +149,6 @@ func _on_saved_subjects_options_item_selected(index: int) -> void:
 	_open_or_create_new_file("subjects/"+$saved_subjects_options.get_item_text(index))
 
 
+
+
+	

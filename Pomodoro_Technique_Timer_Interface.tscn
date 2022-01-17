@@ -1,27 +1,29 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Pomodoro_Technique_Timer_Interface.gd" type="Script" id=1]
-[ext_resource path="res://FRAMD.TTF" type="DynamicFontData" id=2]
 [ext_resource path="res://arial.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://ariblk.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://beep test beep.wav" type="AudioStream" id=5]
+[ext_resource path="res://pomodoro timer.png" type="Texture" id=6]
 
 [sub_resource type="DynamicFont" id=1]
-size = 40
-outline_size = 1
+size = 13
 outline_color = Color( 0.898039, 0.105882, 0.105882, 1 )
-font_data = ExtResource( 2 )
+use_filter = true
+font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 28
 font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 150
+size = 160
+use_filter = true
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=4]
-size = 150
+size = 165
+use_filter = true
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=5]
@@ -31,18 +33,22 @@ font_data = ExtResource( 3 )
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = 8.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+position = Vector2( 418, 166 )
+
 [node name="Button" type="Button" parent="."]
 anchor_right = 0.741
 anchor_bottom = 0.535
-margin_left = 766.0
-margin_top = 245.0
-margin_right = 200.216
-margin_bottom = -6.00003
+margin_left = 602.0
+margin_top = 150.0
+margin_right = 201.2
+margin_bottom = 48.5
 text = "START"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -51,9 +57,10 @@ __meta__ = {
 [node name="Reset" type="Button" parent="."]
 anchor_right = 0.066
 anchor_bottom = 0.133
-margin_top = 8.0
-margin_right = -35.584
-margin_bottom = -51.8
+margin_left = 673.0
+margin_top = 10.0
+margin_right = 653.416
+margin_bottom = -11.496
 text = "RESET"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -64,38 +71,43 @@ __meta__ = {
 [node name="Work_timer" type="Timer" parent="."]
 
 [node name="work_time_input_buffer" type="LineEdit" parent="."]
-margin_left = 902.0
-margin_top = 159.0
-margin_right = 960.0
-margin_bottom = 185.0
+margin_left = 734.0
+margin_top = 79.0
+margin_right = 794.0
+margin_bottom = 103.0
+hint_tooltip = "How long do you want every work session to be in minutes?"
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_editor_description_": ""
 }
 
 [node name="break_time_input_buffer" type="LineEdit" parent="."]
-margin_left = 902.0
-margin_top = 204.0
-margin_right = 960.0
-margin_bottom = 228.0
+margin_left = 734.0
+margin_top = 115.0
+margin_right = 794.0
+margin_bottom = 139.0
+hint_tooltip = "How long do you want every rest session to be in minutes?"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="subject_input" type="LineEdit" parent="."]
-margin_left = 206.0
-margin_top = 540.0
-margin_right = 410.0
-margin_bottom = 564.0
+margin_left = 602.0
+margin_top = 242.0
+margin_right = 795.0
+margin_bottom = 266.0
+hint_tooltip = "If you want to save worked time to a specific subject just type it in and hit ENTER"
 text = "no subject"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="saved_subjects_options" type="OptionButton" parent="."]
-margin_left = 380.0
-margin_top = 540.0
-margin_right = 409.0
-margin_bottom = 565.0
+margin_left = 767.0
+margin_top = 242.0
+margin_right = 796.0
+margin_bottom = 267.0
+hint_tooltip = "Previous subjects"
 focus_mode = 0
 enabled_focus_mode = 0
 flat = true
@@ -106,19 +118,22 @@ __meta__ = {
 }
 
 [node name="Title" type="RichTextLabel" parent="."]
-margin_left = 128.0
-margin_top = 8.0
-margin_right = 630.0
-margin_bottom = 78.0
+margin_left = 602.0
+margin_top = 28.0
+margin_right = 795.0
+margin_bottom = 51.0
 rect_scale = Vector2( 1.58035, 2.08609 )
 custom_fonts/normal_font = SubResource( 1 )
-text = "Pomodoro Technique Timer"
+text = "Pomodoro Timer"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="work_time_label" type="RichTextLabel" parent="."]
-margin_left = 763.0
-margin_top = 156.0
-margin_right = 914.0
-margin_bottom = 208.0
+margin_left = 602.0
+margin_top = 75.0
+margin_right = 734.0
+margin_bottom = 110.0
 custom_colors/default_color = Color( 1, 0, 0, 1 )
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
@@ -130,10 +145,10 @@ __meta__ = {
 }
 
 [node name="break_time_label" type="RichTextLabel" parent="."]
-margin_left = 770.0
-margin_top = 194.0
-margin_right = 921.0
-margin_bottom = 246.0
+margin_left = 602.0
+margin_top = 110.0
+margin_right = 734.0
+margin_bottom = 144.0
 custom_colors/default_color = Color( 1, 0, 0, 1 )
 custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
@@ -145,10 +160,10 @@ __meta__ = {
 }
 
 [node name="main_timer_displayer" type="RichTextLabel" parent="."]
-margin_left = 128.0
-margin_top = 326.0
-margin_right = 447.0
-margin_bottom = 507.0
+margin_left = 19.0
+margin_top = 103.0
+margin_right = 357.0
+margin_bottom = 284.0
 custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
 custom_fonts/normal_font = SubResource( 3 )
 text = "000"
@@ -158,10 +173,10 @@ __meta__ = {
 }
 
 [node name="main_timer_displayer_seconds" type="RichTextLabel" parent="."]
-margin_left = 466.0
-margin_top = 330.0
-margin_right = 672.0
-margin_bottom = 507.0
+margin_left = 374.0
+margin_top = 103.0
+margin_right = 593.0
+margin_bottom = 296.0
 custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
 custom_fonts/normal_font = SubResource( 3 )
 text = "00"
@@ -171,12 +186,13 @@ __meta__ = {
 }
 
 [node name="current_status" type="RichTextLabel" parent="."]
-margin_left = 128.0
-margin_top = 112.0
-margin_right = 721.0
-margin_bottom = 330.0
+margin_left = 19.0
+margin_top = -52.0
+margin_right = 625.0
+margin_bottom = 166.0
 custom_fonts/normal_font = SubResource( 4 )
 text = "WORK"
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -185,10 +201,10 @@ __meta__ = {
 stream = ExtResource( 5 )
 
 [node name="colon" type="RichTextLabel" parent="."]
-margin_left = 424.0
-margin_top = 315.0
-margin_right = 496.0
-margin_bottom = 487.0
+margin_left = 330.0
+margin_top = 91.0
+margin_right = 402.0
+margin_bottom = 263.0
 custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
 custom_fonts/normal_font = SubResource( 3 )
 text = ":"
@@ -198,10 +214,11 @@ __meta__ = {
 }
 
 [node name="total_time_overall_label" type="RichTextLabel" parent="."]
-margin_left = 128.0
-margin_top = 565.0
-margin_right = 288.0
-margin_bottom = 592.0
+margin_left = 602.0
+margin_top = 275.0
+margin_right = 762.0
+margin_bottom = 302.0
+hint_tooltip = "The amount of time you have worked on selected subject"
 custom_fonts/normal_font = SubResource( 5 )
 text = "Total time(min):"
 __meta__ = {
@@ -209,26 +226,29 @@ __meta__ = {
 }
 
 [node name="total_time_overall_value" type="RichTextLabel" parent="."]
-margin_left = 262.0
-margin_top = 567.0
-margin_right = 359.0
-margin_bottom = 594.0
+margin_left = 736.0
+margin_top = 275.0
+margin_right = 796.0
+margin_bottom = 302.0
 custom_fonts/normal_font = SubResource( 5 )
 text = "0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="total_time_overall_label2" type="RichTextLabel" parent="."]
-margin_left = 128.0
-margin_top = 540.0
-margin_right = 206.0
-margin_bottom = 567.0
-custom_fonts/normal_font = SubResource( 5 )
-text = "Subject:"
+[node name="mins" type="RichTextLabel" parent="."]
+margin_left = 747.0
+margin_top = 63.0
+margin_right = 787.0
+margin_bottom = 79.0
+text = "(min)"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 693, 177 )
+texture = ExtResource( 6 )
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="Reset" to="." method="_on_Reset_pressed"]
