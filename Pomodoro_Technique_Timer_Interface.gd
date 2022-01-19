@@ -17,6 +17,8 @@ onready var save_file_name = "subjects/no subject"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$work_time_input_buffer.grab_focus()
+	
 	var dir = Directory.new()
 	dir.open("subjects")
 	dir.list_dir_begin()
@@ -73,7 +75,9 @@ func _process(delta: float) -> void:
 		
 	
 
-func _on_Button_pressed() -> void:
+func _on_TextureButton_pressed() -> void:
+	#$TextureButton.focus_mode = false
+	$work_time_input_buffer.grab_focus()
 	work_time_minutes_in_seconds = int($work_time_input_buffer.text)*60
 	work_time.set_wait_time(work_time_minutes_in_seconds)
 	rest_time_minutes_in_seconds = int($break_time_input_buffer.text)*60
@@ -141,6 +145,7 @@ func _open_or_create_new_file(file_name: String):
 
 func _on_subject_input_text_entered(new_text_input: String) -> void:
 	_open_or_create_new_file("subjects/"+new_text_input.to_lower())
+	$TextureButton.grab_focus()
 
 # When selecting an option in the drop down menu the subject's file will be opened 
 # in order to read its total time and add to it
@@ -151,4 +156,13 @@ func _on_saved_subjects_options_item_selected(index: int) -> void:
 
 
 
-	
+func _on_work_time_input_buffer_text_entered(new_text: String) -> void:
+	$break_time_input_buffer.grab_focus()
+
+
+func _on_break_time_input_buffer_text_entered(new_text: String) -> void:
+	$subject_input.grab_focus()
+
+
+func _on_subject_input_focus_entered() -> void:
+	$subject_input.select_all()
