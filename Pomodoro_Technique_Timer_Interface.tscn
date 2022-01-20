@@ -12,7 +12,8 @@
 
 [sub_resource type="DynamicFont" id=1]
 size = 13
-outline_color = Color( 0.898039, 0.105882, 0.105882, 1 )
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 4 )
 
@@ -22,16 +23,22 @@ font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 160
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 165
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=5]
 size = 19
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
 [node name="Control" type="Control"]
@@ -45,6 +52,9 @@ __meta__ = {
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 position = Vector2( 418, 178 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="TextureButton" type="TextureButton" parent="."]
 margin_left = 637.0
@@ -65,11 +75,21 @@ __meta__ = {
 [node name="Reset" type="Button" parent="."]
 anchor_right = 0.066
 anchor_bottom = 0.133
-margin_left = 673.0
-margin_top = 10.0
-margin_right = 653.416
-margin_bottom = -11.496
+margin_left = 672.0
+margin_top = 6.0
+margin_right = 666.87
+margin_bottom = -15.496
 text = "RESET"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Darkmode_switch" type="CheckButton" parent="."]
+margin_left = 593.0
+margin_top = -3.0
+margin_right = 669.0
+margin_bottom = 37.0
+hint_tooltip = "Darkmode"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -127,9 +147,9 @@ __meta__ = {
 
 [node name="Title" type="RichTextLabel" parent="."]
 margin_left = 602.0
-margin_top = 28.0
+margin_top = 30.0
 margin_right = 795.0
-margin_bottom = 51.0
+margin_bottom = 52.0
 rect_scale = Vector2( 1.58035, 2.08609 )
 custom_fonts/normal_font = SubResource( 1 )
 text = "Pomodoro Timer"
@@ -172,11 +192,26 @@ margin_left = 19.0
 margin_top = 115.0
 margin_right = 357.0
 margin_bottom = 296.0
-custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
+custom_colors/default_color = Color( 0.776471, 0.823529, 0.0980392, 1 )
 custom_fonts/normal_font = SubResource( 3 )
 text = "000"
 scroll_active = false
 __meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="colon" type="RichTextLabel" parent="."]
+margin_left = 330.0
+margin_top = 110.0
+margin_right = 402.0
+margin_bottom = 293.0
+custom_colors/default_color = Color( 0.776471, 0.823529, 0.0980392, 1 )
+custom_fonts/normal_font = SubResource( 3 )
+text = ":"
+scroll_active = false
+__meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -185,41 +220,31 @@ margin_left = 374.0
 margin_top = 115.0
 margin_right = 593.0
 margin_bottom = 308.0
-custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
+custom_colors/default_color = Color( 0.776471, 0.823529, 0.0980392, 1 )
 custom_fonts/normal_font = SubResource( 3 )
 text = "00"
 scroll_active = false
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="current_status" type="RichTextLabel" parent="."]
-margin_left = 19.0
+margin_left = -38.0
 margin_top = -27.0
-margin_right = 621.0
-margin_bottom = 191.0
+margin_right = 602.0
+margin_bottom = 172.0
+custom_colors/default_color = Color( 1, 1, 1, 1 )
 custom_fonts/normal_font = SubResource( 4 )
-text = "WORK"
+text = " WORK"
 scroll_active = false
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="beep" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
-
-[node name="colon" type="RichTextLabel" parent="."]
-margin_left = 330.0
-margin_top = 103.0
-margin_right = 402.0
-margin_bottom = 275.0
-custom_colors/default_color = Color( 0.207843, 0.627451, 0.294118, 1 )
-custom_fonts/normal_font = SubResource( 3 )
-text = ":"
-scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="total_time_overall_label" type="RichTextLabel" parent="."]
 margin_left = 602.0
@@ -256,6 +281,7 @@ __meta__ = {
 
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
 [connection signal="pressed" from="Reset" to="." method="_on_Reset_pressed"]
+[connection signal="toggled" from="Darkmode_switch" to="." method="_on_Darkmode_switch_toggled"]
 [connection signal="timeout" from="Break_timer" to="." method="_on_Break_timer_timeout"]
 [connection signal="timeout" from="Work_timer" to="." method="_on_Work_timer_timeout"]
 [connection signal="text_changed" from="work_time_input_buffer" to="." method="_on_work_time_input_buffer_text_changed"]

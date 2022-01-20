@@ -166,3 +166,17 @@ func _on_break_time_input_buffer_text_entered(new_text: String) -> void:
 
 func _on_subject_input_focus_entered() -> void:
 	$subject_input.select_all()
+
+
+
+
+func _on_Darkmode_switch_toggled(button_pressed: bool) -> void:
+	if(button_pressed):
+		#Darkmode ON
+		VisualServer.set_default_clear_color(Color(0.09,0.09,0.09,1.0))
+		$main_timer_displayer.get("custom_fonts/normal_font").outline_color = Color(0.98,0.98,0.98,1.0)
+		$current_status.get("custom_fonts/normal_font").outline_color = Color(0.98,0.98,0.98,1.0)
+		#$current_status.get("custom_colors/default_color").
+	else:
+		VisualServer.set_default_clear_color(Color(0.95,0.95,0.95,1.0))
+		$main_timer_displayer.get("custom_fonts/normal_font").outline_color = Color(0,0,0,1.0)
