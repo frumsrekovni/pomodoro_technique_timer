@@ -14,6 +14,8 @@ onready var time_start= 0
 onready var time_now= 0
 onready var save_file = File.new()
 onready var save_file_name = "subjects/no subject"
+onready var dark_mode = false
+onready var silent_mode = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -24,7 +26,6 @@ func _ready() -> void:
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
 	while file_name != "":
-		$saved_subjects_options.add_item(file_name)
 		file_name = dir.get_next()
 
 
@@ -35,7 +36,6 @@ func _process(delta: float) -> void:
 	save_file.close()
 	
 	if(time_to_work):
-		$current_status.text = "WORK"
 		main_timer_in_minutes = ("%03d"%(work_time.time_left / 60))
 		$main_timer_displayer_seconds.text = str("%02d"%(int(work_time.time_left)%60))
 		$main_timer_displayer.text = str(main_timer_in_minutes)
@@ -48,6 +48,7 @@ func _process(delta: float) -> void:
 		
 		if(work_time.is_stopped()):
 			time_to_work = false
+			_Darkmode_enabled_change_text(dark_mode, " REST")
 			time_for_break = true
 			break_time.set_wait_time(rest_time_minutes_in_seconds)
 			total_work_time_overall += total_work_time_this_session
@@ -55,19 +56,21 @@ func _process(delta: float) -> void:
 			save_file.store_line(to_json(total_work_time_overall))
 			save_file.close()
 			
-			OS.request_attention()
+			_request_attention()
+			#OS.request_attention()
 			$beep.play()
 			break_time.start()
 	elif(time_for_break):
-		$current_status.text = "REST"
 		main_timer_in_minutes = ("%03d"%(break_time.time_left / 60))
 		$main_timer_displayer_seconds.text = str("%02d"%(int(break_time.time_left)%60))
 		$main_timer_displayer.text = str(main_timer_in_minutes)
 		if(break_time.is_stopped()):
 			time_to_work = true
 			time_for_break = false
+			_Darkmode_enabled_change_text(dark_mode," WORK")
 			work_time.set_wait_time(work_time_minutes_in_seconds)
-			OS.request_attention()
+			_request_attention()
+			#OS.request_attention()
 			$beep.play()
 			work_time.start()
 			time_start = OS.get_ticks_msec()
@@ -84,6 +87,8 @@ func _on_TextureButton_pressed() -> void:
 	break_time.set_wait_time(rest_time_minutes_in_seconds)
 	work_time.start()
 	time_start = OS.get_ticks_msec()
+	
+	_Darkmode_enabled_change_text(dark_mode," WORK")
 	time_to_work = true
 	time_for_break = false
 
@@ -167,16 +172,36 @@ func _on_break_time_input_buffer_text_entered(new_text: String) -> void:
 func _on_subject_input_focus_entered() -> void:
 	$subject_input.select_all()
 
+func _Darkmode_enabled_change_text(enabled: bool, text: String) -> void:
+	if(enabled):
+		$current_status.bbcode_text = ("[color=black]"+text+"[/color]")
+	else:
+		$current_status.bbcode_text = ("[color=white]"+text+"[/color]")
 
-
-
-func _on_Darkmode_switch_toggled(button_pressed: bool) -> void:
+func _on_Darkmode_button_toggled(button_pressed: bool) -> void:
 	if(button_pressed):
 		#Darkmode ON
+		dark_mode = button_pressed
 		VisualServer.set_default_clear_color(Color(0.09,0.09,0.09,1.0))
 		$main_timer_displayer.get("custom_fonts/normal_font").outline_color = Color(0.98,0.98,0.98,1.0)
+		$current_status.bbcode_text = ("[color=black]"+$current_status.text+"[/color]")
 		$current_status.get("custom_fonts/normal_font").outline_color = Color(0.98,0.98,0.98,1.0)
-		#$current_status.get("custom_colors/default_color").
 	else:
+		dark_mode = button_pressed
 		VisualServer.set_default_clear_color(Color(0.95,0.95,0.95,1.0))
 		$main_timer_displayer.get("custom_fonts/normal_font").outline_color = Color(0,0,0,1.0)
+		$current_status.get("custom_fonts/normal_font").outline_color = Color(0,0,0,1.0)
+		$current_status.bbcode_text = ("[color=white]"+$current_status.text+"[/color]")
+
+func _on_Silentmode_button_toggled(button_pressed: bool) -> void:
+	if(button_pressed):
+		#Silentmode ON
+		silent_mode = true
+		$beep.set_stream_paused(true)
+	else:
+		silent_mode = false
+		$beep.set_stream_paused(false)
+
+func _request_attention() -> void:
+	if(silent_mode):
+		OS.request_attention()

@@ -84,12 +84,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Darkmode_switch" type="CheckButton" parent="."]
-margin_left = 593.0
-margin_top = -3.0
-margin_right = 669.0
-margin_bottom = 37.0
-hint_tooltip = "Darkmode"
+[node name="Darkmode_button" type="Button" parent="."]
+margin_left = 736.0
+margin_top = 6.0
+margin_right = 787.0
+margin_bottom = 26.0
+hint_tooltip = "Enables darkmode"
+toggle_mode = true
+text = "DARK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Silentmode_button" type="Button" parent="."]
+margin_left = 612.0
+margin_top = 6.0
+margin_right = 661.0
+margin_bottom = 26.0
+hint_tooltip = "If enabled there is no sound or alerts"
+toggle_mode = true
+text = "SILENT"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -188,9 +202,9 @@ __meta__ = {
 }
 
 [node name="main_timer_displayer" type="RichTextLabel" parent="."]
-margin_left = 19.0
+margin_left = 15.0
 margin_top = 115.0
-margin_right = 357.0
+margin_right = 353.0
 margin_bottom = 296.0
 custom_colors/default_color = Color( 0.776471, 0.823529, 0.0980392, 1 )
 custom_fonts/normal_font = SubResource( 3 )
@@ -202,9 +216,9 @@ __meta__ = {
 }
 
 [node name="colon" type="RichTextLabel" parent="."]
-margin_left = 330.0
+margin_left = 333.0
 margin_top = 110.0
-margin_right = 402.0
+margin_right = 405.0
 margin_bottom = 293.0
 custom_colors/default_color = Color( 0.776471, 0.823529, 0.0980392, 1 )
 custom_fonts/normal_font = SubResource( 3 )
@@ -216,9 +230,9 @@ __meta__ = {
 }
 
 [node name="main_timer_displayer_seconds" type="RichTextLabel" parent="."]
-margin_left = 374.0
+margin_left = 384.0
 margin_top = 115.0
-margin_right = 593.0
+margin_right = 603.0
 margin_bottom = 308.0
 custom_colors/default_color = Color( 0.776471, 0.823529, 0.0980392, 1 )
 custom_fonts/normal_font = SubResource( 3 )
@@ -236,6 +250,8 @@ margin_right = 602.0
 margin_bottom = 172.0
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "[color=white] WORK[/color]"
 text = " WORK"
 scroll_active = false
 __meta__ = {
@@ -281,7 +297,8 @@ __meta__ = {
 
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
 [connection signal="pressed" from="Reset" to="." method="_on_Reset_pressed"]
-[connection signal="toggled" from="Darkmode_switch" to="." method="_on_Darkmode_switch_toggled"]
+[connection signal="toggled" from="Darkmode_button" to="." method="_on_Darkmode_button_toggled"]
+[connection signal="toggled" from="Silentmode_button" to="." method="_on_Silentmode_button_toggled"]
 [connection signal="timeout" from="Break_timer" to="." method="_on_Break_timer_timeout"]
 [connection signal="timeout" from="Work_timer" to="." method="_on_Work_timer_timeout"]
 [connection signal="text_changed" from="work_time_input_buffer" to="." method="_on_work_time_input_buffer_text_changed"]
