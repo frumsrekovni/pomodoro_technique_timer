@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Pomodoro_Technique_Timer_Interface.gd" type="Script" id=1]
 [ext_resource path="res://tomato teirm.png" type="Texture" id=2]
 [ext_resource path="res://arial.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://ariblk.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://beep test beep.wav" type="AudioStream" id=5]
+[ext_resource path="res://VERDANAB.TTF" type="DynamicFontData" id=6]
 [ext_resource path="res://tomato teirm pressed.png" type="Texture" id=7]
 [ext_resource path="res://tomato teirm hover.png" type="Texture" id=8]
 [ext_resource path="res://tomato teirm focused.png" type="Texture" id=9]
@@ -13,9 +14,9 @@
 [sub_resource type="DynamicFont" id=1]
 size = 13
 outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
+outline_color = Color( 0.12549, 0.0313726, 0.0313726, 1 )
 use_filter = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 28
@@ -75,19 +76,19 @@ __meta__ = {
 [node name="Reset" type="Button" parent="."]
 anchor_right = 0.066
 anchor_bottom = 0.133
-margin_left = 672.0
+margin_left = 670.0
 margin_top = 6.0
-margin_right = 666.87
-margin_bottom = -15.496
+margin_right = 671.87
+margin_bottom = -15.629
 text = "RESET"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Darkmode_button" type="Button" parent="."]
-margin_left = 736.0
+margin_left = 740.0
 margin_top = 6.0
-margin_right = 787.0
+margin_right = 795.0
 margin_bottom = 26.0
 hint_tooltip = "Enables darkmode"
 toggle_mode = true
@@ -97,9 +98,9 @@ __meta__ = {
 }
 
 [node name="Silentmode_button" type="Button" parent="."]
-margin_left = 612.0
+margin_left = 600.0
 margin_top = 6.0
-margin_right = 661.0
+margin_right = 655.0
 margin_bottom = 26.0
 hint_tooltip = "If enabled there is no sound or alerts"
 toggle_mode = true
@@ -162,7 +163,7 @@ __meta__ = {
 [node name="Title" type="RichTextLabel" parent="."]
 margin_left = 602.0
 margin_top = 30.0
-margin_right = 795.0
+margin_right = 730.0
 margin_bottom = 52.0
 rect_scale = Vector2( 1.58035, 2.08609 )
 custom_fonts/normal_font = SubResource( 1 )
@@ -286,10 +287,13 @@ __meta__ = {
 }
 
 [node name="mins" type="RichTextLabel" parent="."]
-margin_left = 747.0
-margin_top = 63.0
-margin_right = 787.0
-margin_bottom = 79.0
+margin_left = 746.0
+margin_top = 65.0
+margin_right = 791.0
+margin_bottom = 81.0
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
+bbcode_text = "[color=black](min)[/color]"
 text = "(min)"
 __meta__ = {
 "_edit_use_anchors_": false

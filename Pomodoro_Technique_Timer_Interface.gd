@@ -26,6 +26,7 @@ func _ready() -> void:
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
 	while file_name != "":
+		$saved_subjects_options.add_item(file_name)
 		file_name = dir.get_next()
 
 
@@ -57,7 +58,6 @@ func _process(delta: float) -> void:
 			save_file.close()
 			
 			_request_attention()
-			#OS.request_attention()
 			$beep.play()
 			break_time.start()
 	elif(time_for_break):
@@ -70,7 +70,6 @@ func _process(delta: float) -> void:
 			_Darkmode_enabled_change_text(dark_mode," WORK")
 			work_time.set_wait_time(work_time_minutes_in_seconds)
 			_request_attention()
-			#OS.request_attention()
 			$beep.play()
 			work_time.start()
 			time_start = OS.get_ticks_msec()
@@ -79,7 +78,6 @@ func _process(delta: float) -> void:
 	
 
 func _on_TextureButton_pressed() -> void:
-	#$TextureButton.focus_mode = false
 	$work_time_input_buffer.grab_focus()
 	work_time_minutes_in_seconds = int($work_time_input_buffer.text)*60
 	work_time.set_wait_time(work_time_minutes_in_seconds)
@@ -128,12 +126,15 @@ func _on_Reset_pressed() -> void:
 	work_time_minutes_in_seconds= 0
 	rest_time_minutes_in_seconds= 0
 	
+	work_time.set_wait_time(1)
+	break_time.set_wait_time(1)
 	main_timer_in_minutes = 0
 	$main_timer_displayer_seconds.text = str("%02d"%(int(main_timer_in_minutes)%60))
 	$main_timer_displayer.text = str("%03d"%main_timer_in_minutes)
 	$break_time_input_buffer.clear()
 	$work_time_input_buffer.clear()
 	$subject_input.text = "no subject"
+	_ready()
 
 func _accepted_value_check(value: String):
 	var x = int(value)
@@ -144,20 +145,21 @@ func _accepted_value_check(value: String):
 	
 
 func _open_or_create_new_file(file_name: String):
+	save_file_name = "subjects/"+file_name.to_lower()
 	save_file.open(file_name,File.READ)
 	total_work_time_overall = int(save_file.get_as_text())
 	save_file.close()
 
 func _on_subject_input_text_entered(new_text_input: String) -> void:
-	_open_or_create_new_file("subjects/"+new_text_input.to_lower())
+	_open_or_create_new_file(new_text_input)
+	$total_time_overall_value.text = str((int(save_file.get_as_text()) / 1000)/60)
 	$TextureButton.grab_focus()
 
 # When selecting an option in the drop down menu the subject's file will be opened 
 # in order to read its total time and add to it
 func _on_saved_subjects_options_item_selected(index: int) -> void:
 	$subject_input.text = $saved_subjects_options.get_item_text(index)
-	_open_or_create_new_file("subjects/"+$saved_subjects_options.get_item_text(index))
-
+	_open_or_create_new_file($saved_subjects_options.get_item_text(index))
 
 
 
@@ -186,12 +188,14 @@ func _on_Darkmode_button_toggled(button_pressed: bool) -> void:
 		$main_timer_displayer.get("custom_fonts/normal_font").outline_color = Color(0.98,0.98,0.98,1.0)
 		$current_status.bbcode_text = ("[color=black]"+$current_status.text+"[/color]")
 		$current_status.get("custom_fonts/normal_font").outline_color = Color(0.98,0.98,0.98,1.0)
+		$mins.bbcode_text = ("[color=white](min)[/color]")
 	else:
 		dark_mode = button_pressed
 		VisualServer.set_default_clear_color(Color(0.95,0.95,0.95,1.0))
 		$main_timer_displayer.get("custom_fonts/normal_font").outline_color = Color(0,0,0,1.0)
 		$current_status.get("custom_fonts/normal_font").outline_color = Color(0,0,0,1.0)
 		$current_status.bbcode_text = ("[color=white]"+$current_status.text+"[/color]")
+		$mins.bbcode_text = ("[color=black](min)[/color]")
 
 func _on_Silentmode_button_toggled(button_pressed: bool) -> void:
 	if(button_pressed):
@@ -205,3 +209,5 @@ func _on_Silentmode_button_toggled(button_pressed: bool) -> void:
 func _request_attention() -> void:
 	if(silent_mode):
 		OS.request_attention()
+
+
