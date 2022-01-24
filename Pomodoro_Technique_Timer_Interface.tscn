@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Pomodoro_Technique_Timer_Interface.gd" type="Script" id=1]
 [ext_resource path="res://tomato teirm.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://tomato teirm hover.png" type="Texture" id=8]
 [ext_resource path="res://tomato teirm focused.png" type="Texture" id=9]
 [ext_resource path="res://tomato teirm disabled.png" type="Texture" id=10]
+[ext_resource path="res://trashcan.png" type="Texture" id=11]
+[ext_resource path="res://trashcan_red.png" type="Texture" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 size = 13
@@ -42,6 +44,12 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
+[sub_resource type="DynamicFont" id=6]
+size = 22
+outline_size = 2
+outline_color = Color( 0.0313726, 0.168627, 0, 1 )
+font_data = ExtResource( 3 )
+
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -51,10 +59,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-position = Vector2( 418, 178 )
+[node name="ConfirmationDeleteSubject" type="ConfirmationDialog" parent="."]
+margin_left = 600.0
+margin_top = 136.0
+margin_right = 800.0
+margin_bottom = 206.0
+window_title = "Confirmation"
+dialog_text = "Erase subject completely?"
 __meta__ = {
-"_edit_lock_": true
+"_edit_use_anchors_": false
 }
 
 [node name="TextureButton" type="TextureButton" parent="."]
@@ -69,6 +82,19 @@ texture_pressed = ExtResource( 7 )
 texture_hover = ExtResource( 8 )
 texture_disabled = ExtResource( 10 )
 texture_focused = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="delete_button" type="TextureButton" parent="."]
+margin_left = 603.0
+margin_top = 152.0
+margin_right = 623.0
+margin_bottom = 175.0
+hint_tooltip = "Erase current subject completely?"
+texture_normal = ExtResource( 11 )
+texture_hover = ExtResource( 12 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -135,11 +161,11 @@ __meta__ = {
 }
 
 [node name="subject_input" type="LineEdit" parent="."]
-margin_left = 602.0
+margin_left = 629.0
 margin_top = 152.0
 margin_right = 795.0
 margin_bottom = 176.0
-hint_tooltip = "If you want to save worked time to a specific subject just type it in and hit ENTER"
+hint_tooltip = "If you want to save time worked to a specific subject just type it in and hit ENTER or Start the timer"
 text = "no subject"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -299,7 +325,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="start_button_error_prompt" type="RichTextLabel" parent="."]
+visible = false
+margin_left = 643.0
+margin_top = 212.0
+margin_right = 773.0
+margin_bottom = 293.0
+custom_fonts/normal_font = SubResource( 6 )
+text = "Enter a valid work and rest time"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="confirmed" from="ConfirmationDeleteSubject" to="." method="_on_ConfirmationDeleteSubject_confirmed"]
 [connection signal="pressed" from="TextureButton" to="." method="_on_TextureButton_pressed"]
+[connection signal="pressed" from="delete_button" to="." method="_on_delete_button_pressed"]
 [connection signal="pressed" from="Reset" to="." method="_on_Reset_pressed"]
 [connection signal="toggled" from="Darkmode_button" to="." method="_on_Darkmode_button_toggled"]
 [connection signal="toggled" from="Silentmode_button" to="." method="_on_Silentmode_button_toggled"]

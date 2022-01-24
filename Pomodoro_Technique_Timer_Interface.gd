@@ -16,6 +16,7 @@ onready var save_file = File.new()
 onready var save_file_name = "subjects/no subject"
 onready var dark_mode = false
 onready var silent_mode = false
+var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -26,8 +27,10 @@ func _ready() -> void:
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
 	while file_name != "":
-		$saved_subjects_options.add_item(file_name)
+		if(!file_name.begins_with(".")):
+			$saved_subjects_options.add_item(file_name)
 		file_name = dir.get_next()
+	dir.list_dir_end()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -74,21 +77,35 @@ func _process(delta: float) -> void:
 			work_time.start()
 			time_start = OS.get_ticks_msec()
 			
-		
+	
+	if($start_button_error_prompt.visible):
+		print($start_button_error_prompt.modulate.a)
+		$start_button_error_prompt.modulate.a -= 0.004
+		if($start_button_error_prompt.modulate.a <= 0):
+			
+			$start_button_error_prompt.visible=false
+			$start_button_error_prompt.modulate.a = 1
+	
+	if(save_file_name == "subjects/malte every friday"):
+		rng.randomize()
+		VisualServer.set_default_clear_color(Color(rng.randf_range(0,1),rng.randf_range(0,1),rng.randf_range(0,1),1.0))	
 	
 
 func _on_TextureButton_pressed() -> void:
 	$work_time_input_buffer.grab_focus()
 	work_time_minutes_in_seconds = int($work_time_input_buffer.text)*60
-	work_time.set_wait_time(work_time_minutes_in_seconds)
 	rest_time_minutes_in_seconds = int($break_time_input_buffer.text)*60
-	break_time.set_wait_time(rest_time_minutes_in_seconds)
-	work_time.start()
-	time_start = OS.get_ticks_msec()
+	if(work_time_minutes_in_seconds > 0 && rest_time_minutes_in_seconds > 0):
+		work_time.set_wait_time(work_time_minutes_in_seconds)
+		break_time.set_wait_time(rest_time_minutes_in_seconds)
+		work_time.start()
+		time_start = OS.get_ticks_msec()
+		time_to_work = true
+		time_for_break = false
+	else:
+		$start_button_error_prompt.visible = true
 	
 	_Darkmode_enabled_change_text(dark_mode," WORK")
-	time_to_work = true
-	time_for_break = false
 
 func _on_Work_timer_timeout() -> void:
 	work_time.stop()
@@ -134,11 +151,12 @@ func _on_Reset_pressed() -> void:
 	$break_time_input_buffer.clear()
 	$work_time_input_buffer.clear()
 	$subject_input.text = "no subject"
-	_ready()
-
+	_open_or_create_new_file("no subject")
+	
+	
 func _accepted_value_check(value: String):
 	var x = int(value)
-	if((x < 1000) && (x >= 0) && (value.is_valid_integer())):
+	if((x < 1000) && (x > 0) && (value.is_valid_integer())):
 		return true
 	else:
 		return false
@@ -211,3 +229,11 @@ func _request_attention() -> void:
 		OS.request_attention()
 
 
+func _on_delete_button_pressed() -> void:
+	$ConfirmationDeleteSubject.popup()
+
+func _on_ConfirmationDeleteSubject_confirmed() -> void:
+	var dir = Directory.new()
+	dir.remove(save_file_name)
+	$saved_subjects_options.remove_item($saved_subjects_options.get_selected_id())
+	_on_Reset_pressed()

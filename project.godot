@@ -13,6 +13,7 @@ config_version=4
 config/name="Pomodoro Technique Timer"
 run/main_scene="res://Pomodoro_Technique_Timer_Interface.tscn"
 config/icon="res://pomodoro timer.png"
+config/windows_native_icon="res://pomo_icon.ico"
 
 [display]
 
