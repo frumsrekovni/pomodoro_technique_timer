@@ -21,6 +21,8 @@ var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$work_time_input_buffer.grab_focus()
+	save_file.open(save_file_name,File.READ)
+	$saved_subjects_options.add_item("no subject")
 	
 	var dir = Directory.new()
 	dir.open("subjects")
