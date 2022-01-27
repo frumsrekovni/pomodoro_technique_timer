@@ -95,9 +95,9 @@ func _process(delta: float) -> void:
 
 func _on_TextureButton_pressed() -> void:
 	$work_time_input_buffer.grab_focus()
-	work_time_minutes_in_seconds = int($work_time_input_buffer.text)*60
-	rest_time_minutes_in_seconds = int($break_time_input_buffer.text)*60
-	if(work_time_minutes_in_seconds > 0 && rest_time_minutes_in_seconds > 0):
+	work_time_minutes_in_seconds = float($work_time_input_buffer.text)*60
+	rest_time_minutes_in_seconds = float($break_time_input_buffer.text)*60
+	if(_accepted_value_check(str($work_time_input_buffer.text)) && _accepted_value_check(str($break_time_input_buffer.text))):
 		work_time.set_wait_time(work_time_minutes_in_seconds)
 		break_time.set_wait_time(rest_time_minutes_in_seconds)
 		work_time.start()
@@ -157,8 +157,8 @@ func _on_Reset_pressed() -> void:
 	
 	
 func _accepted_value_check(value: String):
-	var x = int(value)
-	if((x < 1000) && (x > 0) && (value.is_valid_integer())):
+	var x = float(value)
+	if((x < 1000) && (x > 0.0) && (value.is_valid_float())):
 		return true
 	else:
 		return false
